@@ -7,6 +7,9 @@ contract TokenFactory {
     // Store all deployed token addresses
     address[] public deployedTokens;
 
+    // Mapping to associate token addresses with their owners
+    mapping(address => address[]) public ownerTokens;
+
     // Event to emit when a new token is deployed
     event TokenCreated(address tokenAddress, address owner);
 
@@ -22,16 +25,18 @@ contract TokenFactory {
         ERC20 newToken = new ERC20(initialSupply, tokenName, tokenSymbol);
 
         // Transfer ownership of the newly created token to the sender
-        // This ensures the person who called this function owns the token
         newToken.transfer(msg.sender, initialSupply);
 
         // Store the token's address in the deployedTokens array
         deployedTokens.push(address(newToken));
 
+        // Map the new token address to the owner's address
+        ownerTokens[msg.sender].push(address(newToken));
+
         // Emit an event with the new token address and the owner
         emit TokenCreated(address(newToken), msg.sender);
 
-        return address(newToken);
+        return address(newToken);  // Return the new token address
     }
 
     /**
@@ -40,5 +45,14 @@ contract TokenFactory {
      */
     function getAllDeployedTokens() public view returns (address[] memory) {
         return deployedTokens;
+    }
+
+    /**
+     * @dev Get all tokens created by an owner.
+     * @param owner The address of the owner.
+     * @return The addresses of all tokens created by the owner.
+     */
+    function getTokensByOwner(address owner) public view returns (address[] memory) {
+        return ownerTokens[owner];
     }
 }
