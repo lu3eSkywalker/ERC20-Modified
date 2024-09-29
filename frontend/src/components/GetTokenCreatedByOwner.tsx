@@ -5,7 +5,7 @@ const GetTokenCreatedByOwner = () => {
   const [ownerAddress, setOwnerAddress] = useState<string>("");
   const [tokens, setTokens] = useState<string[]>([]);
 
-  const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+  const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
   const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
   const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
