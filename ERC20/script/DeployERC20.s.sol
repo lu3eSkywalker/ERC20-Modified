@@ -11,6 +11,7 @@ contract DeployERC20 is Script {
         uint256 initialSupply = 10000;
         string memory tokenName = "Baby-Yoda-Coin";
         string memory tokenSymbol = "Yoda";
+        string memory initialMetadataURI = "https://api.jsonserve.com/LwtSPD";
         
         // Start broadcasting transactions
         vm.startBroadcast();
@@ -19,7 +20,7 @@ contract DeployERC20 is Script {
         TokenFactory tokenFactory = new TokenFactory();
 
         // Use the factory to create a new ERC20 token
-        address newTokenAddress = tokenFactory.createToken(initialSupply, tokenName, tokenSymbol);
+        address newTokenAddress = tokenFactory.createToken(initialSupply, tokenName, tokenSymbol, initialMetadataURI);
         
         // Stop broadcasting
         vm.stopBroadcast();
