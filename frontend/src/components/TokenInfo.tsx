@@ -5,27 +5,28 @@ const TokenInfo = () => {
   const [tokenName, setTokenName] = useState<string>("");
   const [tokenSymbol, setTokenSymbol] = useState<string>("");
   const [tokenSupply, setTokenSupply] = useState<string>("");
-  const [privateKey, setPrivateKey] = useState<string>("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80");
-  const [contractAddress, setContractAddress] = useState<string>("0xa783cdc72e34a174cca57a6d9a74904d0bec05a9");
+  const [tokenMetadataURI, setTokenMetadataURI] = useState<string>("");
+  const [tokenLogo, setTokenLogo] = useState<string>("");
+  const [contractAddress, setContractAddress] = useState<string>(
+    "0xb0279db6a2f1e01fbc8483fccef0be2bc6299cc3"
+  );
 
   const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
-  const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
-  const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
   const ABI = [
     "function getTokenInfo() public view returns(string memory, string memory, uint256, uint256)",
+    "function getTokenMetadata() public view returns (string memory)",
   ];
 
   const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const wallet = new ethers.Wallet(PRIVATE_KEY || "", provider);
-
-  const contract = new ethers.Contract(contractAddress || "", ABI, wallet);
+  const contract = new ethers.Contract(contractAddress || "", ABI, provider);
 
   async function tokenInfo() {
     const tokenInfo = await contract.getTokenInfo();
-
     const fullTokenInfo = tokenInfo.toString();
+    console.log(tokenInfo);
     console.log(fullTokenInfo);
+
     const name = fullTokenInfo.split(",")[0];
     setTokenName(name);
 
@@ -34,6 +35,33 @@ const TokenInfo = () => {
 
     const totalSupply = fullTokenInfo.split(",")[2];
     setTokenSupply(totalSupply);
+
+    async function tokenMetaData() {
+      const getTokenMetadata = await contract.getTokenMetadata();
+      console.log(getTokenMetadata);
+      setTokenMetadataURI(getTokenMetadata);
+    }
+
+    tokenMetaData();
+
+    async function getTokenLogo() {
+      const url = `https://thingproxy.freeboard.io/fetch/${tokenMetadataURI}`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log(data.image);
+        setTokenLogo(data.image);
+      } catch (error) {
+        console.error("There was a problem with the fetch operation:", error);
+      }
+    }
+
+    getTokenLogo();
   }
 
   return (
@@ -56,6 +84,13 @@ const TokenInfo = () => {
         <p>Symbol: {tokenSymbol}</p>
         <br />
         <p>Supply: {tokenSupply}</p>
+        <br />
+        <p>Metadata: {tokenMetadataURI}</p>
+
+        <br />
+        <br />
+
+        <img src={tokenLogo} className="w-30 h-30 rounded-full object-cover" alt="" />
       </div>
     </div>
   );

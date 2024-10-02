@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 
+declare global {
+  interface Window {
+    ethereum: any; // You can also specify a more accurate type if needed
+  }
+}
+
 const TokenTransfer = () => {
   const [toSendToAddress, setToSendToAddress] = useState<string>("");
   const [ethToSend, setEthToSend] = useState<string>("");
@@ -9,32 +15,44 @@ const TokenTransfer = () => {
   );
   const [hash, setHash] = useState<string>("");
 
-  const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
-  const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
-  // const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-
   const ABI = [
     "function transfer(address,uint256) public returns (bool success)",
   ];
 
-  const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const wallet = new ethers.Wallet(PRIVATE_KEY || "", provider);
-
-  const contract = new ethers.Contract(contractAddress || "", ABI, wallet);
-
   async function tokenTransfer() {
-    const tokenAmount = ethers.parseUnits(ethToSend, 1);
-    const transferToken = await contract.transfer(
-      toSendToAddress,
-      tokenAmount,
-      {
-        gasLimit: 10000000,
-      }
-    );
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
 
-    const receipt = await transferToken.wait();
-    console.log("Hash: ", receipt.hash);
-    setHash(receipt.hash);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+
+        const signer = await provider.getSigner();
+
+        const contract = new ethers.Contract(contractAddress || "", ABI, signer);
+
+        const tokenAmount = ethers.parseUnits(ethToSend, 18);
+        const transferToken = await contract.transfer(
+          toSendToAddress,
+          tokenAmount,
+          {
+            gasLimit: 10000000,
+          }
+        );
+    
+        const receipt = await transferToken.wait();
+        console.log("Hash: ", receipt.hash);
+        setHash(receipt.hash);
+
+
+      } catch (error: any) {
+        console.error("Error launching token:", error);
+        alert("An error occurred while launching the token. Check console for details.");
+      }
+    } else {
+      alert("Please install MetaMask to use this feature.");
+    }
+
+
   }
 
   return (
