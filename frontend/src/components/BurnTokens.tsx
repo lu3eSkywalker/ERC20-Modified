@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
+
 const BurnTokens = () => {
   const [tokenAmt, setTokenAmt] = useState<string>("");
   const [hash, setHash] = useState<string>("");
@@ -8,23 +14,35 @@ const BurnTokens = () => {
     "0xbf9fBFf01664500A33080Da5d437028b07DFcC55"
   );
 
-  const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
-  const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
-  const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-
-  const ABI = ["function burn(uint256) public returns (bool success)"];
-
-  const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const wallet = new ethers.Wallet(PRIVATE_KEY || "", provider);
-
-  const contract = new ethers.Contract(contractAddress || "", ABI, wallet);
+  const ABI = [
+    "function burn(uint256) public returns (bool success)"
+  ];
 
   async function burnTokens() {
-    const tokenAmount = ethers.parseUnits(tokenAmt, 1);
-    const burnTokens = await contract.burn(tokenAmount);
-    // console.log(burnTokens);
-    console.log("Hash: ", burnTokens.hash);
-    setHash(burnTokens.hash);
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+
+        const provider = new ethers.BrowserProvider(window.ethereum);
+
+        const signer = await provider.getSigner();
+
+        const contract = new ethers.Contract(contractAddress || "", ABI, signer);
+
+        const tokenAmount = ethers.parseUnits(tokenAmt, 18);
+        const burnTokens = await contract.burn(tokenAmount);
+        // console.log(burnTokens);
+        console.log("Hash: ", burnTokens.hash);
+        setHash(burnTokens.hash);
+
+      } catch (error: any) {
+        console.error("Error launching token:", error);
+        alert("An error occurred while launching the token. Check console for details.");
+      }
+    } else {
+      alert("Please install MetaMask to use this feature.");
+    }
+
   }
 
   return (

@@ -5,20 +5,17 @@ const GetTokenCreatedByOwner = () => {
   const [ownerAddress, setOwnerAddress] = useState<string>("");
   const [tokens, setTokens] = useState<string[]>([]);
 
-  const contractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
   const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
-  const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
-  const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
   const ABI = [
     "function getTokensByOwner(address) public view returns (address[] memory)",
   ];
 
   const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const wallet = new ethers.Wallet(PRIVATE_KEY || "", provider);
 
-  const contract = new ethers.Contract(contractAddress || "", ABI, wallet);
+  const contract = new ethers.Contract(contractAddress || "", ABI, provider);
 
   async function getTokensByOwner() {
     const getTokens = await contract.getTokensByOwner(ownerAddress);
@@ -45,23 +42,15 @@ const GetTokenCreatedByOwner = () => {
         <br />
         <br />
 
-
-
-
         <div className="min-h-8">
           {tokens.map((data) => (
             <div className="text-lg font-semibold text-center break-words">
               {data}
               <br />
               <br />
-              </div>
+            </div>
           ))}
         </div>
-
-
-
-
-
       </div>
     </div>
   );

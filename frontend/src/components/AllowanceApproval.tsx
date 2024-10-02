@@ -3,29 +3,38 @@ import { ethers } from "ethers";
 
 const AllowanceApproval = () => {
   const [spenderAddress, setSpenderAddress] = useState<string>("");
-  const [allowance, setAllowance] = useState<number>();
+  const [allowance, setAllowance] = useState<string>("");
   const [hash, setHash] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>(
     "0xbf9fBFf01664500A33080Da5d437028b07DFcC55"
   );
 
-  const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
-  const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY;
   const ABI = [
     "function approve(address, uint256) public returns (bool success)",
   ];
 
-  const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const wallet = new ethers.Wallet(PRIVATE_KEY || "", provider);
-
-  const contract = new ethers.Contract(contractAddress || "", ABI, wallet);
-
   async function approve() {
-    const toApprove = await contract.approve(spenderAddress, allowance);
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contract = new ethers.Contract(contractAddress || "", ABI, signer);
 
-    // console.log(toApprove.toString());
-    console.log(toApprove);
-    setHash(toApprove.hash);
+        const allowanceEth = ethers.parseUnits(allowance, 18);
+
+
+        const toApprove = await contract.approve(spenderAddress, allowanceEth);
+        console.log(toApprove);
+        setHash(toApprove.hash);
+
+      } catch (error: any) {
+        console.error("Error launching token:", error);
+        alert("An error occurred while launching the token. Check console for details.");
+      }
+    } else {
+      alert("Please install MetaMask to use this feature.");
+    }
   }
 
   return (
@@ -52,7 +61,7 @@ const AllowanceApproval = () => {
         <input
           type="text"
           placeholder="eth amount"
-          onChange={(e) => setAllowance(parseInt(e.target.value))}
+          onChange={(e) => setAllowance(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 

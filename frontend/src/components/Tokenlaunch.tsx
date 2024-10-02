@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 
 declare global {
   interface Window {
-    ethereum: any; // You can also specify a more accurate type if needed
+    ethereum: any;
   }
 }
 
