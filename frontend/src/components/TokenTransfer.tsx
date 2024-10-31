@@ -28,9 +28,13 @@ const TokenTransfer = () => {
 
         const signer = await provider.getSigner();
 
-        const contract = new ethers.Contract(contractAddress || "", ABI, signer);
+        const contract = new ethers.Contract(
+          contractAddress || "",
+          ABI,
+          signer
+        );
 
-        const tokenAmount = ethers.parseUnits(ethToSend, 18);
+        const tokenAmount = ethers.parseUnits(ethToSend, 1);
         const transferToken = await contract.transfer(
           toSendToAddress,
           tokenAmount,
@@ -38,59 +42,63 @@ const TokenTransfer = () => {
             gasLimit: 10000000,
           }
         );
-    
+
         const receipt = await transferToken.wait();
         console.log("Hash: ", receipt.hash);
         setHash(receipt.hash);
-
-
       } catch (error: any) {
         console.error("Error launching token:", error);
-        alert("An error occurred while launching the token. Check console for details.");
+        alert(
+          "An error occurred while launching the token. Check console for details."
+        );
       }
     } else {
       alert("Please install MetaMask to use this feature.");
     }
-
-
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg p-8 w-80">
-        <h1 className="text-2xl font-bold mb-6 text-center">Token Transfer</h1>
+    <div
+      className="bg-gray-100 flex flex-col justify-center items-center"
+      style={{ height: "75vh" }}
+    >
+      <div className="bg-white shadow-md rounded-lg p-8 w-[550px] mb-6">
+        <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
+          Address:
+          <input
+            type="text"
+            className="grow"
+            placeholder="eth address to send"
+            onChange={(e) => setToSendToAddress(e.target.value)}
+          />
+        </label>
 
-        <p>
-          You should be the owner of the token to transfer it to other users
-        </p>
-        <br />
+        <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
+          Address:
+          <input
+            type="text"
+            className="grow"
+            placeholder="Enter Contract Address"
+            onChange={(e) => setContractAddress(e.target.value)}
+          />
+        </label>
 
-        <input
-          type="text"
-          placeholder="eth address to send"
-          onChange={(e) => setToSendToAddress(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
+          Token_Amount:
+          <input
+            type="number"
+            className="grow"
+            placeholder="Token amount"
+            onChange={(e) => setEthToSend(e.target.value)}
+          />
+        </label>
 
-        <br />
-
-        <input
-          type="text"
-          placeholder="Enter Contract Address"
-          onChange={(e) => setContractAddress(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <br />
-
-        <input
-          type="number"
-          placeholder="Token amount"
-          onChange={(e) => setEthToSend(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <br />
+        <button
+          className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl my-2"
+          onClick={() => tokenTransfer()}
+        >
+          Transfer Token
+        </button>
 
         <div className="min-h-8">
           {hash && (
@@ -103,12 +111,40 @@ const TokenTransfer = () => {
           )}
         </div>
 
-        <button
-          className="mt-6 w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
-          onClick={() => tokenTransfer()}
-        >
-          Transfer Token
-        </button>
+        {/* <div className="text-lg font-bold mt-4">{tokenResponse}</div> */}
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <div className="text-center text-gray-700 font-medium">
+        <ul className="steps text-xl">
+          <li className="step step-primary">
+            <a href="./tokenlaunch">Token Launch</a>
+          </li>
+          <li className="step step-primary">
+            <a href="./gettokenscreatedbyowners">
+              Get Our Token Contract Address
+            </a>
+          </li>
+          <li className="step step-primary">
+            <a href="./tokentransfer">Token Transfer</a>
+          </li>
+          <li className="step ">
+            <a href="./burntokens">Burn Tokens</a>
+          </li>
+          <li className="step">
+            <a href="./allowanceapproval">Allowance Approval</a>
+          </li>
+          <li className="step ">
+            <a href="./transferfrom">Transfer From</a>
+          </li>
+          <li className="step ">
+            <a href="./burnfrom">Burn From</a>
+          </li>
+        </ul>
       </div>
     </div>
   );
