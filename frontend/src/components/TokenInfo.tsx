@@ -77,44 +77,46 @@ const TokenInfo = () => {
   }
 
   return (
-    <div
-      className="bg-gray-100 flex flex-col justify-center items-center"
-      style={{ height: "75vh" }}
-    >
-      <div className="bg-white shadow-md rounded-lg p-8 w-[550px] mb-6">
-        <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
-          Address:
-          <input
-            type="text"
-            className="grow"
-            placeholder="contract address"
-            onChange={(e) => setContractAddress(e.target.value)}
-          />
-        </label>
+    <div className="bg-gray-100">
+      <div
+        className="bg-gray-100 flex flex-col justify-center items-center"
+        style={{ height: "75vh" }}
+      >
+        <div className="bg-white shadow-md rounded-lg p-8 w-[550px] mb-6">
+          <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
+            Address:
+            <input
+              type="text"
+              className="grow"
+              placeholder="contract address"
+              onChange={(e) => setContractAddress(e.target.value)}
+            />
+          </label>
 
-        <button
-          className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl"
-          onClick={() => tokenInfo()}
-        >
-          Token Info
-        </button>
+          <button
+            className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl"
+            onClick={() => tokenInfo()}
+          >
+            Token Info
+          </button>
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <p>Name: {tokenName}</p>
-        <br />
-        <p>Symbol: {tokenSymbol}</p>
-        <br />
-        <p>Supply: {tokenSupply}</p>
-        <br />
-        <p>Metadata: {tokenMetadataURI}</p>
+          <p>Name: {tokenName}</p>
+          <br />
+          <p>Symbol: {tokenSymbol}</p>
+          <br />
+          <p>Supply: {tokenSupply}</p>
+          <br />
+          <p>Metadata: {tokenMetadataURI}</p>
 
-        {errorMessage && (
-          <div className="text-red-500 text-lg font-bold mt-4">
-            {errorMessage}
-          </div>
-        )}
+          {errorMessage && (
+            <div className="text-red-500 text-lg font-bold mt-4">
+              {errorMessage}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

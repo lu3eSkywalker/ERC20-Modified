@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
+import TokenLaunchInfo from "./Walkthrough/TokenLaunchInfo";
 
 declare global {
   interface Window {
@@ -67,112 +68,123 @@ const TokenLaunch = () => {
   return (
     <div>
       <div className="bg-gray-100">
-        <div>
-          <div
-            className="flex flex-col justify-center items-center bg-gray-100"
-            style={{ height: "75vh" }}
-          >
-            <div className="bg-white shadow-md rounded-lg p-8 w-[500px] mb-6">
-              <div>
-                <label className="input input-bordered flex items-center gap-2 font-black text-xl my-2">
-                  Token_Name:
-                  <input
-                    type="text"
-                    className="grow"
-                    placeholder="DogeCoin"
-                    onChange={(e) => setTokenName(e.target.value)}
-                  />
-                </label>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
 
-                <label className="input input-bordered flex items-center gap-2 font-black text-xl my-2">
-                  Token_Symbol:
-                  <input
-                    type="text"
-                    className="grow"
-                    placeholder="DOGE"
-                    onChange={(e) => setTokenSymbol(e.target.value)}
-                  />
-                </label>
-
-                <label className="input input-bordered flex items-center gap-2 font-black text-xl">
-                  Token_Supply:
-                  <input
-                    type="text"
-                    className="grow"
-                    placeholder="1000000"
-                    onChange={(e) => setTokenSupply(e.target.value)}
-                  />
-                </label>
-
-                <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
-                  Metadata_URI:
-                  <input
-                    type="text"
-                    className="grow"
-                    placeholder="http://tokenuri.json"
-                    onChange={(e) => setMetadataURI(e.target.value)}
-                  />
-                </label>
-              </div>
-
-              <br />
-
-              <button
-                onClick={() => launchToken()}
-                className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl"
+        <div className="flex flex-col items-center bg-gray-100">
+          <TokenLaunchInfo />
+          <div>
+            <div>
+              <div
+                className="flex flex-col justify-center items-center bg-gray-100"
+                style={{ height: "70vh" }}
               >
-                Launch Token
-              </button>
+                <div className="bg-white shadow-md rounded-lg p-8 w-[500px] mb-6">
+                  <div>
+                    <label className="input input-bordered flex items-center gap-2 font-black text-xl my-2">
+                      Token_Name:
+                      <input
+                        type="text"
+                        className="grow"
+                        placeholder="DogeCoin"
+                        onChange={(e) => setTokenName(e.target.value)}
+                      />
+                    </label>
 
-              <br />
-              <br />
-              {
-                <div className="text-xl">
-                  {" "}
-                  {hash && (
-                    <h2 className="text-lg font-semibold text-center break-words">
-                      Tx Hash: {hash}
-                      <br />
-                      <p className="font-semibold">Token Created</p>
-                    </h2>
-                  )}
+                    <label className="input input-bordered flex items-center gap-2 font-black text-xl my-2">
+                      Token_Symbol:
+                      <input
+                        type="text"
+                        className="grow"
+                        placeholder="DOGE"
+                        onChange={(e) => setTokenSymbol(e.target.value)}
+                      />
+                    </label>
+
+                    <label className="input input-bordered flex items-center gap-2 font-black text-xl">
+                      Token_Supply:
+                      <input
+                        type="text"
+                        className="grow"
+                        placeholder="1000000"
+                        onChange={(e) => setTokenSupply(e.target.value)}
+                      />
+                    </label>
+
+                    <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
+                      Metadata_URI:
+                      <input
+                        type="text"
+                        className="grow"
+                        placeholder="http://tokenuri.json"
+                        onChange={(e) => setMetadataURI(e.target.value)}
+                      />
+                    </label>
+                  </div>
+
+                  <br />
+
+                  <button
+                    onClick={() => launchToken()}
+                    className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl"
+                  >
+                    Launch Token
+                  </button>
+
+                  <br />
+                  <br />
+                  {
+                    <div className="text-xl">
+                      {" "}
+                      {hash && (
+                        <h2 className="text-lg font-semibold text-center break-words">
+                          Tx Hash: {hash}
+                          <br />
+                          <p className="font-semibold">Token Created</p>
+                        </h2>
+                      )}
+                    </div>
+                  }
+
+                  <div className="text-lg font-bold">{tokenLaunchResponse}</div>
                 </div>
-              }
 
-              <div className="text-lg font-bold">{tokenLaunchResponse}</div>
-            </div>
+                <br />
+                <br />
+                <br />
+                <br />
 
-            <br />
-            <br />
-            <br />
-            <br />
-
-            <div className="text-center text-gray-700 font-medium">
-              <ul className="steps text-xl">
-                <li className="step step-primary">
-                  <a href="./tokenlaunch">Token Launch</a>
-                </li>
-                <li className="step ">
-                  <a href="./gettokenscreatedbyowners">
-                    Get Our Token Contract Address
-                  </a>
-                </li>
-                <li className="step ">
-                  <a href="./tokentransfer">Token Transfer</a>
-                </li>
-                <li className="step ">
-                  <a href="./burntokens">Burn Tokens</a>
-                </li>
-                <li className="step">
-                  <a href="./allowanceapproval">Allowance Approval</a>
-                </li>
-                <li className="step ">
-                  <a href="./transferfrom">Transfer From</a>
-                </li>
-                <li className="step ">
-                  <a href="./burnfrom">Burn From</a>
-                </li>
-              </ul>
+                <div className="text-center text-gray-700 font-medium">
+                  <ul className="steps text-xl">
+                    <li className="step step-primary">
+                      <a href="./tokenlaunch">Token Launch</a>
+                    </li>
+                    <li className="step ">
+                      <a href="./gettokenscreatedbyowners">
+                        Get Our Token Contract Address
+                      </a>
+                    </li>
+                    <li className="step ">
+                      <a href="./tokentransfer">Token Transfer</a>
+                    </li>
+                    <li className="step ">
+                      <a href="./burntokens">Burn Tokens</a>
+                    </li>
+                    <li className="step">
+                      <a href="./allowanceapproval">Allowance Approval</a>
+                    </li>
+                    <li className="step ">
+                      <a href="./transferfrom">Transfer From</a>
+                    </li>
+                    <li className="step ">
+                      <a href="./burnfrom">Burn From</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>

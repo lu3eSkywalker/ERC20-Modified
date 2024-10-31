@@ -45,12 +45,6 @@ const FetchBalance = () => {
         <br />
         {showTokens ? <p>Total number of tokens {address} owns: {totalTokens}</p> : <p></p>}
 
-        <br />
-        <br />
-
-
-
-
         <button onClick={() => getBalance()}>
             Get balance
         </button>

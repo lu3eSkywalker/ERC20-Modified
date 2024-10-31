@@ -1,12 +1,12 @@
-import TokenTransfer from '@/components/TokenTransfer'
-import React from 'react'
+import TokenTransfer from "@/components/TokenTransfer";
+import React from "react";
 
 const tokentransfer = () => {
   return (
     <div>
-        <TokenTransfer />
+      <TokenTransfer />
     </div>
-  )
-}
+  );
+};
 
-export default tokentransfer
+export default tokentransfer;
