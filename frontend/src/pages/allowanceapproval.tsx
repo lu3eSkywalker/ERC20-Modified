@@ -1,12 +1,16 @@
-import AllowanceApproval from '@/components/AllowanceApproval'
-import React from 'react'
+import AllowanceApproval from "@/components/AllowanceApproval";
+import Footer from "@/components/Design/Footer";
+import Header from "@/components/Design/Header";
+import React from "react";
 
 const allowanceapproval = () => {
   return (
     <div>
-        <AllowanceApproval />
+      <Header />
+      <AllowanceApproval />
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default allowanceapproval
+export default allowanceapproval;

@@ -11,52 +11,56 @@ const TokenInfo = () => {
     "0xb0279db6a2f1e01fbc8483fccef0be2bc6299cc3"
   );
 
+  const [dataFetched, setDataFetched] = useState<boolean>(false);
+
   const [tokenResponse, setTokenResponse] = useState<string>("");
-
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
-  const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
 
   const ABI = [
     "function getTokenInfo() public view returns(string memory, string memory, uint256, uint256)",
     "function getTokenMetadata() public view returns (string memory)",
   ];
 
-  const provider = new ethers.JsonRpcProvider(RPC_URL);
-  const contract = new ethers.Contract(contractAddress, ABI, provider);
-
   async function tokenInfo() {
-    if (!ethers.isAddress(contractAddress)) {
-      setErrorMessage("Invalid Ethereum address");
-      return;
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contract = new ethers.Contract(contractAddress, ABI, signer);
+
+        // This gets the token info
+        const tokenInfo = await contract.getTokenInfo();
+
+          const fullTokenInfo = tokenInfo.toString();
+          console.log(tokenInfo);
+          console.log(fullTokenInfo);
+
+          const name = fullTokenInfo.split(",")[0];
+          setTokenName(name);
+
+          const symbol = fullTokenInfo.split(",")[1];
+          setTokenSymbol(symbol);
+
+          const totalSupply = fullTokenInfo.split(",")[2];
+          setTokenSupply(totalSupply);
+
+          setDataFetched(true);
+
+          // This Gets the token Metadata
+          const getTokenMetadata = await contract.getTokenMetadata();
+          console.log(getTokenMetadata);
+          setTokenMetadataURI(getTokenMetadata);
+          console.log(tokenMetadataURI);
+          getTokenLogo();
+      } catch (error: any) {
+        console.error("Error Getting the Token Info", error);
+        alert(
+          "An error occurred while Getting the Token Info. Check console for details."
+        );
+      }
+    } else {
+      alert("Please install MetaMask to use this feature.");
     }
-
-    try {
-      const tokenInfo = await contract.getTokenInfo();
-      const fullTokenInfo = tokenInfo.toString();
-      console.log(tokenInfo);
-      console.log(fullTokenInfo);
-
-      const name = fullTokenInfo.split(",")[0];
-      setTokenName(name);
-
-      const symbol = fullTokenInfo.split(",")[1];
-      setTokenSymbol(symbol);
-
-      const totalSupply = fullTokenInfo.split(",")[2];
-      setTokenSupply(totalSupply);
-
-      tokenMetaData();
-    } catch (error) {
-      console.log("Error fetching tokens info", error);
-    }
-  }
-
-  async function tokenMetaData() {
-    const getTokenMetadata = await contract.getTokenMetadata();
-    console.log(getTokenMetadata);
-    setTokenMetadataURI(getTokenMetadata);
-    getTokenLogo();
   }
 
   async function getTokenLogo() {
@@ -80,7 +84,7 @@ const TokenInfo = () => {
     <div className="bg-gray-100">
       <div
         className="bg-gray-100 flex flex-col justify-center items-center"
-        style={{ height: "75vh" }}
+        style={{ height: "77.1vh" }}
       >
         <div className="bg-white shadow-md rounded-lg p-8 w-[550px] mb-6">
           <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
@@ -103,19 +107,22 @@ const TokenInfo = () => {
           <br />
           <br />
 
-          <p>Name: {tokenName}</p>
-          <br />
-          <p>Symbol: {tokenSymbol}</p>
-          <br />
-          <p>Supply: {tokenSupply}</p>
-          <br />
-          <p>Metadata: {tokenMetadataURI}</p>
-
-          {errorMessage && (
-            <div className="text-red-500 text-lg font-bold mt-4">
-              {errorMessage}
+          {dataFetched ? (
+            <div className="text-xl font-semibold">
+              {" "}
+              <p>Name: {tokenName}</p>
+              <br />
+              <p>Symbol: {tokenSymbol}</p>
+              <br />
+              <p>Supply: {tokenSupply}</p>
+              <br />
+              <p>Metadata: {tokenMetadataURI}</p>
             </div>
+          ) : (
+            <p></p>
           )}
+
+          {tokenResponse}
         </div>
       </div>
     </div>

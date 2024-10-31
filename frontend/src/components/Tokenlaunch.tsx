@@ -80,7 +80,7 @@ const TokenLaunch = () => {
             <div>
               <div
                 className="flex flex-col justify-center items-center bg-gray-100"
-                style={{ height: "70vh" }}
+                style={{ height: "62vh" }}
               >
                 <div className="bg-white shadow-md rounded-lg p-8 w-[500px] mb-6">
                   <div>
@@ -155,8 +155,8 @@ const TokenLaunch = () => {
                 <br />
                 <br />
                 <br />
-                <br />
 
+                
                 <div className="text-center text-gray-700 font-medium">
                   <ul className="steps text-xl">
                     <li className="step step-primary">

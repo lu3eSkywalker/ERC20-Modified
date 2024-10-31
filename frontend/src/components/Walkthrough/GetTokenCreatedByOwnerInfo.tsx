@@ -15,7 +15,7 @@ const GetTokenCreatedByOwnerInfo = () => {
           className="btn text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg text-xl px-5 py-2.5 text-center me-2 mb-2"
           onClick={handleClick}
         >
-          Show Info About Launching ERC20
+          Show Info About Getting Contract Address
         </button>
         <dialog id="my_modal_4" className="modal">
           <div className="modal-box w-11/12 max-w-5xl h-100 overflow-y-auto">

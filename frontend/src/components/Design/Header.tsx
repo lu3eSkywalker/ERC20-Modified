@@ -7,7 +7,7 @@ const Header = () => {
       <nav className="bg-gray-800">
         <div className="relative flex h-[130px] items-center justify-between px-6">
           <div className="flex items-center">
-            <button onClick={() => router.push("/launcherc721")}>
+            <button onClick={() => router.push("/tokenlaunch")}>
               <p className="text-4xl font-bold text-indigo-300 tracking-wide hover:text-indigo-400 transition duration-300 ease-in-out">
                 Ethereum ERC20 / Tokens
               </p>
@@ -18,11 +18,11 @@ const Header = () => {
             <button className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 text-xl" onClick={() => router.push('/walkthrough')}>
               Walkthrough
             </button>
-            <button className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 text-xl" onClick={() => router.push('/mintnft')}>
-              Mint NFTs
+            <button className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 text-xl" onClick={() => router.push('/tokeninfo')}>
+              Get Token Info
             </button>
-            <button className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 text-xl" onClick={() => router.push('/launcherc721')}>
-              Deploy ERC721
+            <button className="rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 text-xl" onClick={() => router.push('/tokenlaunch')}>
+              Deploy ERC20
             </button>
           </div>
         </div>

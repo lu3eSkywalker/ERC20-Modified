@@ -54,10 +54,10 @@ const GetTokenCreatedByOwner = () => {
       </div>
       <div
         className="bg-gray-100 flex flex-col justify-center items-center"
-        style={{ height: "70vh" }}
+        style={{ height: "63.999999vh" }}
       >
         <div className="bg-white shadow-md rounded-lg p-8 w-[550px] mb-6">
-          <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">
+          <label className="input input-bordered flex items-center gap-2 my-4 font-black text-xl">
             Address:
             <input
               type="text"
@@ -68,7 +68,7 @@ const GetTokenCreatedByOwner = () => {
           </label>
 
           <button
-            className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl"
+            className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold text-xl my-2"
             onClick={getTokensByOwner}
           >
             getTokensByOwner

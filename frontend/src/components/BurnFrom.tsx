@@ -66,13 +66,13 @@ const BurnFrom = () => {
       <br />
       <br />
       <br />
-      
+
       <div className="flex flex-col items-center bg-gray-100">
         <BurnFromInfo />
       </div>
       <div
         className="bg-gray-100 flex flex-col justify-center items-center"
-        style={{ height: "70vh" }}
+        style={{ height: "64vh" }}
       >
         <div className="bg-white shadow-md rounded-lg p-8 w-[550px] mb-6">
           <label className="input input-bordered flex items-center gap-2 my-2 font-black text-xl">

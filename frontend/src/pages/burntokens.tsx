@@ -1,12 +1,16 @@
-import BurnTokens from '@/components/BurnTokens'
-import React from 'react'
+import BurnTokens from "@/components/BurnTokens";
+import Footer from "@/components/Design/Footer";
+import Header from "@/components/Design/Header";
+import React from "react";
 
 const burntokens = () => {
   return (
     <div>
-        <BurnTokens />
+      <Header />
+      <BurnTokens />
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default burntokens
+export default burntokens;
