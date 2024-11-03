@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import BurnTokensInfo from "./Walkthrough/BurnTokensInfo";
+import { MetaMaskInpageProvider } from "@metamask/providers";
 
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum: MetaMaskInpageProvider;
   }
 }
 
@@ -34,19 +35,19 @@ const BurnTokens = () => {
           signer
         );
 
-        const tokenAmount = ethers.parseUnits(tokenAmt, 1);
+        const tokenAmount = ethers.parseUnits(tokenAmt, 18);
         const burnTokens = await contract.burn(tokenAmount);
-        // console.log(burnTokens);
+
+        const response = await burnTokens.wait();
         console.log("Hash: ", burnTokens.hash);
         setHash(burnTokens.hash);
 
-        const response = await burnTokens.wait();
-        if (response.status == 1) {
+        if(response.status == 1) {
           setTokenBurnResponse("");
         } else {
           setTokenBurnResponse("Error Burning the token");
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error burning token:", error);
         alert(
           "An error occurred while Burning the token. Check console for details."

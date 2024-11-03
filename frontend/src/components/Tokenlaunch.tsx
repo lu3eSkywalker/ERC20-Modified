@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import TokenLaunchInfo from "./Walkthrough/TokenLaunchInfo";
+import { MetaMaskInpageProvider } from "@metamask/providers";
+
 
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum: MetaMaskInpageProvider;
   }
 }
 
@@ -18,7 +20,7 @@ const TokenLaunch = () => {
   const [tokenLaunchResponse, setTokenLaunchResponse] = useState<string>("");
 
   // Use contract address from the environment variables
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0x873b148C1456C57316944377495B330E2fA8e972";
 
   // ABI of the token contract
   const ABI = [
@@ -34,7 +36,7 @@ const TokenLaunch = () => {
         const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddress, ABI, signer);
 
-        const supply = ethers.parseUnits(tokenSupply, 1);
+        const supply = ethers.parseUnits(tokenSupply, 18);
 
         const txResponse = await contract.createToken(
           supply,
@@ -54,7 +56,7 @@ const TokenLaunch = () => {
         } else {
           setTokenLaunchResponse("Error Launching The Token");
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error launching token:", error);
         alert(
           "An error occurred while launching the token. Check console for details."
@@ -156,7 +158,6 @@ const TokenLaunch = () => {
                 <br />
                 <br />
 
-                
                 <div className="text-center text-gray-700 font-medium">
                   <ul className="steps text-xl">
                     <li className="step step-primary">

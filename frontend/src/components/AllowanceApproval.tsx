@@ -30,19 +30,19 @@ const AllowanceApproval = () => {
           signer
         );
 
-        const allowanceEth = ethers.parseUnits(allowance, 1);
+        const allowanceEth = ethers.parseUnits(allowance, 18);
 
         const toApprove = await contract.approve(spenderAddress, allowanceEth);
+        const response = await toApprove.wait();
         console.log(toApprove);
         setHash(toApprove.hash);
 
-        const response = await toApprove.wait();
         if (response.status == 1) {
           setTokenAllowanceApprovalResponse("");
         } else {
           setTokenAllowanceApprovalResponse("Error Approving the transaction");
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error approving the tokens:", error);
         alert(
           "An error occurred while approving the tokens. Check console for details."

@@ -22,7 +22,7 @@ const GetTokenCreatedByOwnerInfo = () => {
             <h3 className="font-bold text-lg"></h3>
             <div className="py-4 text-xl">
               <p>
-                To retrieve an ERC-20 contract address, we’ll use the user's
+                To retrieve an ERC-20 contract address, we will use the users
                 public key as a search parameter to locate any associated token
                 contracts. This search process will help us identify any ERC-20
                 tokens associated with the address.
@@ -32,7 +32,7 @@ const GetTokenCreatedByOwnerInfo = () => {
               <br />
               <ul>
                 <li>
-                  <strong>Step 1:</strong> Obtain the user's public key.
+                  <strong>Step 1:</strong> Obtain the users public key.
                 </li>
                 <li>
                   <strong>Step 2:</strong> Query the blockchain, searching for

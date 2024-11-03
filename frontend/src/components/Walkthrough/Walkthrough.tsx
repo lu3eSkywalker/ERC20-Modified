@@ -55,9 +55,9 @@ const Walkthrough = () => {
             <div className="text-lg font-black">
               <a href="./getcontractsbyuser">Get Token Contract Address</a>
             </div>
-            To retrieve the ERC-20 contract address, we’ll use the user's public
+            To retrieve the ERC-20 contract address, we will use the users public
             key to identify any associated Token contracts. By querying the
-            blockchain with the user's address, we can locate any deployed
+            blockchain with the users address, we can locate any deployed
             ERC-20 contracts linked to that address.
           </div>
           <hr />
@@ -83,7 +83,7 @@ const Walkthrough = () => {
             <div className="text-lg font-black">
               <a href="./mintnft">Token Transfer</a>
             </div>
-            Next, we’ll transfer the newly launched tokens from our account to
+            Next, we will transfer the newly launched tokens from our account to
             various other accounts. This step distributes the tokens, allowing
             others to hold and use them. Each transfer is recorded on the
             blockchain. Once transferred, recipients can interact with their
@@ -112,7 +112,7 @@ const Walkthrough = () => {
             <div className="text-lg font-black">
               <a href="./approve">Burn Tokens</a>
             </div>
-            In this step, we’ll burn some of the tokens we initially created.
+            In this step, we will burn some of the tokens we initially created.
             Burning tokens involves permanently removing them from circulation,
             reducing the total supply. This process is often used to control
             inflation or increase scarcity. Once burned, these tokens cannot be
@@ -177,7 +177,7 @@ const Walkthrough = () => {
             tokens to any account of their choice. With the approval granted,
             they have the permission to manage and move the tokens as needed.
             This enables more flexible token usage, such as payments or
-            redistributions. The spender’s actions remain within the limits set
+            redistributions. The spenders actions remain within the limits set
             by the original token owner.
           </div>
           <hr />

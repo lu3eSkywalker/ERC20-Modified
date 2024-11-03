@@ -37,7 +37,7 @@ const BurnFromInfo = () => {
                 Once burned, these tokens cannot be recovered or used again.
                 This irreversible action reinforces the limited supply of the
                 tokens in circulation. Allowing authorized users to burn tokens
-                can be a strategic tool for managing a token's economy
+                can be a strategic tool for managing a tokens economy
                 effectively.
               </p>
             </div>

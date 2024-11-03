@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import TokenTransferInfo from "./Walkthrough/TokenTransferInfo";
+import { MetaMaskInpageProvider } from "@metamask/providers";
 
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum: MetaMaskInpageProvider;
   }
 }
 
@@ -15,6 +16,8 @@ const TokenTransfer = () => {
     "0xbf9fBFf01664500A33080Da5d437028b07DFcC55"
   );
   const [hash, setHash] = useState<string>("");
+
+  const [tokenTransferResponse, setTokenTransferResponse] = useState<string>("");
 
   const ABI = [
     "function transfer(address,uint256) public returns (bool success)",
@@ -35,7 +38,7 @@ const TokenTransfer = () => {
           signer
         );
 
-        const tokenAmount = ethers.parseUnits(ethToSend, 1);
+        const tokenAmount = ethers.parseUnits(ethToSend, 18);
         const transferToken = await contract.transfer(
           toSendToAddress,
           tokenAmount,
@@ -47,10 +50,17 @@ const TokenTransfer = () => {
         const receipt = await transferToken.wait();
         console.log("Hash: ", receipt.hash);
         setHash(receipt.hash);
-      } catch (error: any) {
-        console.error("Error launching token:", error);
+
+        if(receipt.status == 1) {
+          setTokenTransferResponse("Token Transferred Successfully");
+        } else {
+          setTokenTransferResponse("Error Tranferring the Tokens");
+        }
+
+      } catch (error) {
+        console.error("Error transferring the token:", error);
         alert(
-          "An error occurred while launching the token. Check console for details."
+          "An error occurred while transferring the token. Check console for details."
         );
       }
     } else {
@@ -121,7 +131,7 @@ const TokenTransfer = () => {
             )}
           </div>
 
-          {/* <div className="text-lg font-bold mt-4">{tokenResponse}</div> */}
+          <div className="text-lg font-bold mt-4">{tokenTransferResponse}</div>
         </div>
 
         <br />

@@ -8,7 +8,7 @@ const GetTokenCreatedByOwner = () => {
   const [tokenResponse, setTokenResponse] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0x873b148C1456C57316944377495B330E2fA8e972";
   const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
   const ABI = [
     "function getTokensByOwner(address) public view returns (address[] memory)",

@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import { ethers } from "ethers";
 import BurnFromInfo from "./Walkthrough/BurnFromInfo";
 
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
-
 const BurnFrom = () => {
   const [ethAddress, setEthAddress] = useState<string>("");
   const [tokenAmt, setTokenAmt] = useState<string>("");
-  const [hash, setHash] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>(
     "0xbf9fBFf01664500A33080Da5d437028b07DFcC55"
   );
@@ -35,13 +28,12 @@ const BurnFrom = () => {
           signer
         );
 
-        const tokenAmount = ethers.parseUnits(tokenAmt, 1);
+        const tokenAmount = ethers.parseUnits(tokenAmt, 18);
 
         const burnTokens = await contract.burnFrom(ethAddress, tokenAmount, {
           gasLimit: 10000000,
         });
         console.log(burnTokens);
-        setHash(burnTokens.hash);
 
         const response = await burnTokens.wait();
         if (response.status == 1) {
@@ -49,7 +41,7 @@ const BurnFrom = () => {
         } else {
           setTokenBurnFromResponse("Error burning the token");
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error burning token:", error);
         alert(
           "An error occurred while burning the token. Check console for details."

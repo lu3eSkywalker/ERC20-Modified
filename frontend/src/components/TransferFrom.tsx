@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import TransferFromInfo from "./Walkthrough/TransferFromInfo";
+import { MetaMaskInpageProvider } from "@metamask/providers";
 
 declare global {
   interface Window {
-    ethereum: any;
+    ethereum: MetaMaskInpageProvider;
   }
 }
 
@@ -35,7 +36,7 @@ const TransferFrom = () => {
           signer
         );
 
-        const tokenAmountToSend = ethers.parseUnits(tokenAmount, 1);
+        const tokenAmountToSend = ethers.parseUnits(tokenAmount, 18);
 
         const toSend = await contract.transferFrom(
           originalOwner,
@@ -51,7 +52,7 @@ const TransferFrom = () => {
         } else {
           setTokenTransferFromResponse("Error Transferring the token");
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error transferring token:", error);
         alert(
           "An error occurred while transferring the token. Check console for details."

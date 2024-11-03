@@ -6,14 +6,11 @@ const TokenInfo = () => {
   const [tokenSymbol, setTokenSymbol] = useState<string>("");
   const [tokenSupply, setTokenSupply] = useState<string>("");
   const [tokenMetadataURI, setTokenMetadataURI] = useState<string>("");
-  const [tokenLogo, setTokenLogo] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>(
     "0xb0279db6a2f1e01fbc8483fccef0be2bc6299cc3"
   );
 
   const [dataFetched, setDataFetched] = useState<boolean>(false);
-
-  const [tokenResponse, setTokenResponse] = useState<string>("");
 
   const ABI = [
     "function getTokenInfo() public view returns(string memory, string memory, uint256, uint256)",
@@ -31,28 +28,35 @@ const TokenInfo = () => {
         // This gets the token info
         const tokenInfo = await contract.getTokenInfo();
 
-          const fullTokenInfo = tokenInfo.toString();
-          console.log(tokenInfo);
-          console.log(fullTokenInfo);
+        const fullTokenInfo = tokenInfo.toString();
+        console.log(tokenInfo);
+        console.log(fullTokenInfo);
 
-          const name = fullTokenInfo.split(",")[0];
-          setTokenName(name);
+        const name = fullTokenInfo.split(",")[0];
+        setTokenName(name);
 
-          const symbol = fullTokenInfo.split(",")[1];
-          setTokenSymbol(symbol);
+        const symbol = fullTokenInfo.split(",")[1];
+        setTokenSymbol(symbol);
 
-          const totalSupply = fullTokenInfo.split(",")[2];
-          setTokenSupply(totalSupply);
+        // const totalSupply = fullTokenInfo.split(",")[2];
+        // setTokenSupply(totalSupply);
 
-          setDataFetched(true);
+        const totalSupplyRaw = fullTokenInfo.split(",")[2];
+        const decimals = 18; // Adjust this based on your token's actual decimals
 
-          // This Gets the token Metadata
-          const getTokenMetadata = await contract.getTokenMetadata();
-          console.log(getTokenMetadata);
-          setTokenMetadataURI(getTokenMetadata);
-          console.log(tokenMetadataURI);
-          getTokenLogo();
-      } catch (error: any) {
+        // Convert the raw total supply to a readable format
+        const totalSupply = ethers.formatUnits(totalSupplyRaw, decimals);
+        setTokenSupply(totalSupply);
+
+        setDataFetched(true);
+
+        // This Gets the token Metadata
+        const getTokenMetadata = await contract.getTokenMetadata();
+        console.log(getTokenMetadata);
+        setTokenMetadataURI(getTokenMetadata);
+        console.log(tokenMetadataURI);
+        getTokenLogo();
+      } catch (error) {
         console.error("Error Getting the Token Info", error);
         alert(
           "An error occurred while Getting the Token Info. Check console for details."
@@ -74,7 +78,6 @@ const TokenInfo = () => {
 
       const data = await response.json();
       console.log(data.image);
-      setTokenLogo(data.image);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -121,8 +124,6 @@ const TokenInfo = () => {
           ) : (
             <p></p>
           )}
-
-          {tokenResponse}
         </div>
       </div>
     </div>
