@@ -5,13 +5,17 @@ This project demonstrates the interaction between a frontend and a smart contrac
 The deployed contract is an ERC20 Factory Contract, which allows the creation and management of custom ERC20 token contracts. 
 Through the factory, you can store and deploy new token contracts.
 
-Features
+**Features**
+
 The frontend provides the following functionalities:
 
-Token Launch: Create and deploy your own ERC20 token through the factory contract.
-Token Transfers and Burns: Transfer tokens to another address or burn them to reduce supply.
-Allowance Approval: Approve a spender to transfer tokens on your behalf.
-Delegated Token Transfers and Burns: Transfer or burn tokens on behalf of the token owner, using an approved allowance.
+**Token Launch:** Create and deploy your own ERC20 token through the factory contract.
+
+**Token Transfers and Burns:** Transfer tokens to another address or burn them to reduce supply.
+
+**Allowance Approval:** Approve a spender to transfer tokens on your behalf.
+
+**Delegated Token Transfers and Burns:** Transfer or burn tokens on behalf of the token owner, using an approved allowance.
 
 
 This project highlights the interaction between the frontend and blockchain, enabling users to explore and perform key ERC20 functionalities.
